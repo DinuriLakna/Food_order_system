@@ -1,0 +1,19 @@
+{
+  "openapi": "3.0.0",
+  "info": { "title": "User Service API", "version": "1.0.0", "description": "Handles user registration, login, and profile lookup." },
+  "servers": [{ "url": "http://localhost:4000" }],
+  "components": {
+    "securitySchemes": { "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" } },
+    "schemas": {
+      "RegisterRequest": { "type": "object", "required": ["name","email","password"], "properties": { "name": {"type":"string","example":"Alice Smith"}, "email": {"type":"string","example":"alice@example.com"}, "password": {"type":"string","example":"Secret123!"} } },
+      "LoginRequest": { "type": "object", "required": ["email","password"], "properties": { "email": {"type":"string","example":"alice@example.com"}, "password": {"type":"string","example":"Secret123!"} } }
+    }
+  },
+  "paths": {
+    "/health": { "get": { "summary": "Health check", "tags": ["System"], "responses": { "200": {"description":"UP"} } } },
+    "/register": { "post": { "summary": "Register a new user", "tags": ["Auth"], "requestBody": {"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/RegisterRequest"}}}}, "responses": { "201": {"description":"User created"}, "409": {"description":"Email already exists"} } } },
+    "/login": { "post": { "summary": "Login and get JWT token", "tags": ["Auth"], "requestBody": {"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/LoginRequest"}}}}, "responses": { "200": {"description":"JWT token returned"}, "401": {"description":"Invalid credentials"} } } },
+    "/users/{id}": { "get": { "summary": "Get user by ID", "tags": ["Users"], "security": [{"bearerAuth":[]}], "parameters": [{"name":"id","in":"path","required":true,"schema":{"type":"string"}}], "responses": { "200": {"description":"User object"}, "404": {"description":"Not found"} } } },
+    "/users": { "get": { "summary": "List all users", "tags": ["Users"], "security": [{"bearerAuth":[]}], "responses": { "200": {"description":"Array of users"} } } }
+  }
+}

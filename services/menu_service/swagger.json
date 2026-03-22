@@ -1,0 +1,23 @@
+{
+  "openapi": "3.0.0",
+  "info": { "title": "Menu Service API", "version": "1.0.0", "description": "Manages the food catalog." },
+  "servers": [{ "url": "http://localhost:4001" }],
+  "components": {
+    "securitySchemes": { "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" } },
+    "schemas": {
+      "MenuItem": { "type": "object", "required": ["name","price"], "properties": { "name": {"type":"string","example":"Margherita Pizza"}, "description": {"type":"string"}, "price": {"type":"number","example":12.99}, "category": {"type":"string","enum":["starter","main","dessert","drink"]}, "available": {"type":"boolean","example":true} } }
+    }
+  },
+  "paths": {
+    "/health": { "get": { "summary": "Health check", "tags": ["System"], "responses": { "200": {"description":"UP"} } } },
+    "/menu": {
+      "get": { "summary": "List available items (public)", "tags": ["Menu"], "responses": { "200": {"description":"Array of items"} } },
+      "post": { "summary": "Create menu item", "tags": ["Menu"], "security": [{"bearerAuth":[]}], "requestBody": {"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/MenuItem"}}}}, "responses": { "201": {"description":"Created"}, "401": {"description":"Unauthorized"} } }
+    },
+    "/menu/{id}": {
+      "get": { "summary": "Get item by ID", "tags": ["Menu"], "parameters": [{"name":"id","in":"path","required":true,"schema":{"type":"string"}}], "responses": { "200": {"description":"Item"}, "404": {"description":"Not found"} } },
+      "put": { "summary": "Update item", "tags": ["Menu"], "security": [{"bearerAuth":[]}], "parameters": [{"name":"id","in":"path","required":true,"schema":{"type":"string"}}], "requestBody": {"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/MenuItem"}}}}, "responses": { "200": {"description":"Updated"} } },
+      "delete": { "summary": "Delete item", "tags": ["Menu"], "security": [{"bearerAuth":[]}], "parameters": [{"name":"id","in":"path","required":true,"schema":{"type":"string"}}], "responses": { "200": {"description":"Deleted"} } }
+    }
+  }
+}

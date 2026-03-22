@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+
+  user-service:
+    build: ./services/user_service
+    container_name: user-service
+    ports: ["4000:4000"]
+    env_file: ./services/user_service/.env
+    networks: [food-net]
+    restart: unless-stopped
+
+  menu-service:
+    build: ./services/menu_service
+    container_name: menu-service
+    ports: ["4001:4001"]
+    env_file: ./services/menu_service/.env
+    networks: [food-net]
+    restart: unless-stopped
+
+  payment-service:
+    build: ./services/payment_service
+    container_name: payment-service
+    ports: ["4003:4003"]
+    env_file: ./services/payment_service/.env
+    networks: [food-net]
+    restart: unless-stopped
+
+  order-service:
+    build: ./services/order_service
+    container_name: order-service
+    ports: ["4002:4002"]
+    env_file: ./services/order_service/.env
+    depends_on:
+      - user-service
+      - menu-service
+      - payment-service
+    networks: [food-net]
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: food-frontend
+    ports: ["3000:80"]
+    depends_on:
+      - user-service
+      - menu-service
+      - order-service
+      - payment-service
+    networks: [food-net]
+    restart: unless-stopped
+
+networks:
+  food-net:
+    driver: bridge

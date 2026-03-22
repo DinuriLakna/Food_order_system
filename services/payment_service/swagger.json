@@ -1,0 +1,20 @@
+{
+  "openapi": "3.0.0",
+  "info": { "title": "Payment Service API", "version": "1.0.0", "description": "Handles payment processing." },
+  "servers": [{ "url": "http://localhost:4003" }],
+  "components": {
+    "securitySchemes": { "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" } },
+    "schemas": {
+      "CreatePayment": { "type": "object", "required": ["orderId","amount","userId"], "properties": { "orderId": {"type":"string"}, "amount": {"type":"number","example":25.98}, "userId": {"type":"string"}, "method": {"type":"string","enum":["CARD","WALLET","CASH"],"default":"CARD"} } }
+    }
+  },
+  "paths": {
+    "/health": { "get": { "summary": "Health check", "tags": ["System"], "responses": { "200": {"description":"UP"} } } },
+    "/payments": {
+      "post": { "summary": "Process a payment", "tags": ["Payments"], "security": [{"bearerAuth":[]}], "requestBody": {"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreatePayment"}}}}, "responses": { "201": {"description":"PAID"}, "402": {"description":"Declined"} } },
+      "get": { "summary": "Get my payments", "tags": ["Payments"], "security": [{"bearerAuth":[]}], "responses": { "200": {"description":"List"} } }
+    },
+    "/payments/{id}": { "get": { "summary": "Get payment by ID", "tags": ["Payments"], "security": [{"bearerAuth":[]}], "parameters": [{"name":"id","in":"path","required":true,"schema":{"type":"string"}}], "responses": { "200": {"description":"Payment"}, "404": {"description":"Not found"} } } },
+    "/payments/order/{orderId}": { "get": { "summary": "Get payment by order ID", "tags": ["Payments"], "security": [{"bearerAuth":[]}], "parameters": [{"name":"orderId","in":"path","required":true,"schema":{"type":"string"}}], "responses": { "200": {"description":"Payment"}, "404": {"description":"Not found"} } } }
+  }
+}
