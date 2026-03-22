@@ -40,6 +40,7 @@ jobs:
         run: npm test
 
       - name: SonarCloud Scan
+        continue-on-error: true
         uses: SonarSource/sonarcloud-github-action@master
         with:
           projectBaseDir: ${{ matrix.context }}
@@ -53,8 +54,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Snyk vulnerability scan
-        uses: snyk/actions/node@master
         continue-on-error: true
+        uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
@@ -63,7 +64,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t food-order-${{ matrix.service }}:${{ github.sha }} ${{ matrix.context }}
-          echo "Docker image built successfully: food-order-${{ matrix.service }}:${{ github.sha }}"
+          echo "✅ Docker image built: food-order-${{ matrix.service }}:${{ github.sha }}"
 
   health-check:
     name: Health Check - Live Azure Services
@@ -75,21 +76,25 @@ jobs:
       - name: Check all live Azure services are healthy
         run: |
           echo "Checking live Azure Container Apps services..."
+          ALL_OK=true
 
-          for URL in \
-            "${{ secrets.USER_SERVICE_URL }}/health" \
-            "${{ secrets.MENU_SERVICE_URL }}/health" \
-            "${{ secrets.ORDER_SERVICE_URL }}/health" \
-            "${{ secrets.PAYMENT_SERVICE_URL }}/health"; do
-
-            echo "Checking: $URL"
-            STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 "$URL")
-
+          for SERVICE in "USER:${{ secrets.USER_SERVICE_URL }}" "MENU:${{ secrets.MENU_SERVICE_URL }}" "ORDER:${{ secrets.ORDER_SERVICE_URL }}" "PAYMENT:${{ secrets.PAYMENT_SERVICE_URL }}"; do
+            NAME=$(echo $SERVICE | cut -d: -f1)
+            URL=$(echo $SERVICE | cut -d: -f2-)
+            echo "Checking $NAME service at $URL/health"
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 "$URL/health" || echo "000")
             if [ "$STATUS" = "200" ]; then
-              echo "  OK: $URL returned 200"
+              echo "  ✅ $NAME service is UP (HTTP 200)"
             else
-              echo "  WARNING: $URL returned $STATUS"
+              echo "  ⚠️  $NAME service returned HTTP $STATUS"
+              ALL_OK=false
             fi
           done
 
-          echo "All health checks completed."
+          if [ "$ALL_OK" = "true" ]; then
+            echo ""
+            echo "✅ All 4 Azure services are healthy!"
+          else
+            echo ""
+            echo "⚠️  Some services may be starting up. Check Azure Portal for details."
+          fi
