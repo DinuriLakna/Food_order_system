@@ -99,5 +99,5 @@ jobs:
             echo "✅ All 4 Azure services are healthy!"
           else
             echo ""
-            echo "⚠️  Some services may be starting up. Check Azure Portal for details."
+            echo " Some services may be starting up. Check Azure Portal for details."
           fi
