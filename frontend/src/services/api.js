@@ -12,10 +12,10 @@ import axios from 'axios';
 
 const IS_LOCAL = window.location.hostname === 'localhost';
 
-const USER_API    = IS_LOCAL ? 'http://localhost:4000' : 'https://user-service.greenhill-3759a5f1.eastus.azurecontainerapps.io';
-const MENU_API    = IS_LOCAL ? 'http://localhost:4001' : 'https://menu-service.greenhill-3759a5f1.eastus.azurecontainerapps.io';
-const ORDER_API   = IS_LOCAL ? 'http://localhost:4002' : 'https://order-service.greenhill-3759a5f1.eastus.azurecontainerapps.io';
-const PAYMENT_API = IS_LOCAL ? 'http://localhost:4003' : 'https://payment-service.greenhill-3759a5f1.eastus.azurecontainerapps.io';
+const USER_API    = 'https://user-service.greenhill-3759a5f1.eastus.azurecontainerapps.io';
+const MENU_API    = 'https://menu-service.greenhill-3759a5f1.eastus.azurecontainerapps.io';
+const ORDER_API   = 'https://order-service.greenhill-3759a5f1.eastus.azurecontainerapps.io';
+const PAYMENT_API = 'https://payment-service.greenhill-3759a5f1.eastus.azurecontainerapps.io';
 
 const authHeader = (token) => ({ headers: { Authorization: `Bearer ${token}` } });
 
