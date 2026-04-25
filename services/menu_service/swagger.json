@@ -1,7 +1,10 @@
 {
   "openapi": "3.0.0",
   "info": { "title": "Menu Service API", "version": "1.0.0", "description": "Manages the food catalog." },
-  "servers": [{ "url": "http://localhost:4001" }],
+  "servers": [
+  { "url": "https://menu-service.greenhill-3759a5f1.eastus.azurecontainerapps.io", "description": "Azure Production" },
+  { "url": "http://localhost:4001", "description": "Local Development" }
+],
   "components": {
     "securitySchemes": { "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" } },
     "schemas": {

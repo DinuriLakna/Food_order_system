@@ -1,7 +1,10 @@
 {
   "openapi": "3.0.0",
   "info": { "title": "Order Service API", "version": "1.0.0", "description": "Orchestrates food orders." },
-  "servers": [{ "url": "http://localhost:4002" }],
+  "servers": [
+  { "url": "https://order-service.greenhill-3759a5f1.eastus.azurecontainerapps.io", "description": "Azure Production" },
+  { "url": "http://localhost:4002", "description": "Local Development" }
+],
   "components": {
     "securitySchemes": { "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" } },
     "schemas": {

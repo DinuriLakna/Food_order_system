@@ -1,7 +1,10 @@
 {
   "openapi": "3.0.0",
   "info": { "title": "User Service API", "version": "1.0.0", "description": "Handles user registration, login, and profile lookup." },
-  "servers": [{ "url": "http://localhost:4000" }],
+  "servers": [
+  { "url": "https://user-service.greenhill-3759a5f1.eastus.azurecontainerapps.io", "description": "Azure Production" },
+  { "url": "http://localhost:4000", "description": "Local Development" }
+],
   "components": {
     "securitySchemes": { "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" } },
     "schemas": {

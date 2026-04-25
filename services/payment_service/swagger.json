@@ -1,7 +1,10 @@
 {
   "openapi": "3.0.0",
   "info": { "title": "Payment Service API", "version": "1.0.0", "description": "Handles payment processing." },
-  "servers": [{ "url": "http://localhost:4003" }],
+  "servers": [
+  { "url": "https://payment-service.greenhill-3759a5f1.eastus.azurecontainerapps.io", "description": "Azure Production" },
+  { "url": "http://localhost:4003", "description": "Local Development" }
+],
   "components": {
     "securitySchemes": { "bearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" } },
     "schemas": {
