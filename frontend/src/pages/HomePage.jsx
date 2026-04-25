@@ -55,7 +55,7 @@ export default function HomePage() {
             letterSpacing: '-0.03em', color: '#fff', marginBottom: 24,
             animationDelay: '0.1s',
           }}>
-            Great food,<br />
+            Great food<br />
             <span style={{ color: 'var(--accent)' }}>delivered fast.</span>
           </h1>
 
