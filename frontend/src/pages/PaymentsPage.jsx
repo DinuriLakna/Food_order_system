@@ -69,7 +69,7 @@ export default function PaymentsPage() {
         <div style={{ marginBottom: 48 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
             <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 22 }}>
-              Pending Payment
+              Pending Payments
             </h2>
             {pendingOrders.length > 0 && (
               <span style={{
