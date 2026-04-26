@@ -45,7 +45,7 @@ export default function HomePage() {
               fontSize: 13, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase',
               marginBottom: 24,
             }}>
-              Now Open — Order Online
+              Now Open — Order Online.
             </span>
           </div>
 
