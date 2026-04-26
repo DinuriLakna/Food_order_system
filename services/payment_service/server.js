@@ -17,8 +17,8 @@ app.use((req, res, next) => {
 });
 
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ Payment DB Connected"))
-  .catch((err) => { console.error("❌ DB Error:", err.message); process.exit(1); });
+  .then(() => console.log(" Payment DB Connected"))
+  .catch((err) => { console.error(" DB Error:", err.message); process.exit(1); });
 
 const paymentSchema = new mongoose.Schema(
   {
@@ -80,5 +80,5 @@ app.get("/payments", authMiddleware, async (req, res) => {
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 const PORT = process.env.PORT || 4003;
-app.listen(PORT, "0.0.0.0", () => console.log(`🚀 Payment Service running on port ${PORT}`));
+app.listen(PORT, "0.0.0.0", () => console.log(` Payment Service running on port ${PORT}`));
 module.exports = app;

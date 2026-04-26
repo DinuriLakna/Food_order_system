@@ -17,8 +17,8 @@ app.use((req, res, next) => {
 });
 
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ Menu DB Connected"))
-  .catch((err) => { console.error("❌ DB Error:", err.message); process.exit(1); });
+  .then(() => console.log(" Menu DB Connected"))
+  .catch((err) => { console.error(" DB Error:", err.message); process.exit(1); });
 
 const itemSchema = new mongoose.Schema(
   {
@@ -86,5 +86,5 @@ app.delete("/menu/:id", authMiddleware, async (req, res) => {
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 const PORT = process.env.PORT || 4001;
-app.listen(PORT, "0.0.0.0", () => console.log(`🚀 Menu Service running on port ${PORT}`));
+app.listen(PORT, "0.0.0.0", () => console.log(` Menu Service running on port ${PORT}`));
 module.exports = app;

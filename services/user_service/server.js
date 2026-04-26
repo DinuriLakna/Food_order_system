@@ -21,8 +21,8 @@ app.use((req, res, next) => {
 // Database
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ User DB Connected"))
-  .catch((err) => { console.error("❌ DB Error:", err.message); process.exit(1); });
+  .then(() => console.log(" User DB Connected"))
+  .catch((err) => { console.error(" DB Error:", err.message); process.exit(1); });
 
 // Model
 const userSchema = new mongoose.Schema(
@@ -114,7 +114,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, "0.0.0.0", () =>
-  console.log(`🚀 User Service running on port ${PORT}`)
+  console.log(` User Service running on port ${PORT}`)
 );
 
 module.exports = app;

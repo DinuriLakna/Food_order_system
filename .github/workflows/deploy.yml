@@ -67,7 +67,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t food-order-${{ matrix.service }}:${{ github.sha }} ${{ matrix.context }}
-          echo "✅ Docker image built: food-order-${{ matrix.service }}:${{ github.sha }}"
+          echo "Docker image built: food-order-${{ matrix.service }}:${{ github.sha }}"
 
   health-check:
     name: Health Check - Live Azure Services
@@ -87,16 +87,16 @@ jobs:
             echo "Checking $NAME service at $URL/health"
             STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 "$URL/health" || echo "000")
             if [ "$STATUS" = "200" ]; then
-              echo "  ✅ $NAME service is UP (HTTP 200)"
+              echo " $NAME service is UP (HTTP 200)"
             else
-              echo "  ⚠️  $NAME service returned HTTP $STATUS"
+              echo "  $NAME service returned HTTP $STATUS"
               ALL_OK=false
             fi
           done
 
           if [ "$ALL_OK" = "true" ]; then
             echo ""
-            echo "✅ All 4 Azure services are healthy!"
+            echo " All 4 Azure services are healthy!"
           else
             echo ""
             echo " Some services may be starting up. Check Azure Portal for details."
